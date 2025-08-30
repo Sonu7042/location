@@ -9,7 +9,13 @@ app.get("/location", (req, res) => {
   
   ipinfo(ip, (err, cLoc) => {
     if (err) return res.status(500).send("Error getting location");
-    res.json(cLoc);
+
+    const [latitude, longitude] = cLoc.loc.split(",");
+    const mapUrl = `https://www.google.com/maps?q=${latitude},${longitude}`;
+    res.json({
+        details : cLoc,
+        location: mapUrl
+    });
   });
 });
 
